@@ -8,22 +8,25 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
+  id       String   @id @default(uuid())
   name     String
-  email    String @unique
+  email    String   @unique
   password String
   role     String
   plan     String
+  Course   Course[]
 
   @@map("users")
 }
 
 model Course {
-  id        String @id @default(uuid())
+  id        String  @id @default(uuid())
   title     String
   summary   String
   owner     String
   thumbnail String
+  User      User?   @relation(fields: [userId], references: [id])
+  userId    String?
 
   @@map("courses")
 }

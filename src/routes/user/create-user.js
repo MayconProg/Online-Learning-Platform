@@ -5,9 +5,9 @@ import bcrypt from "bcrypt";
 const router = express.Router();
 
 router.post("/create-user", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role, plan } = req.body;
 
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !role || !plan) {
     return res.status(400).json({ message: "Invalid Credentials!" });
   }
 
@@ -20,11 +20,15 @@ router.post("/create-user", async (req, res) => {
         email,
         name,
         password: hashPassword,
+        role: role,
+        plan: plan,
       },
     });
 
     return res.status(201).json({ message: "User Created Successful!", user });
   } catch (error) {
+    console.log(error);
+    console.log(error);
     return res.status(500).json({ message: "Internal Server Error!" });
   }
 });

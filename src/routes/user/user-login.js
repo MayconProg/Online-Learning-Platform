@@ -28,7 +28,13 @@ router.post("/user-login", async (req, res) => {
       return res.status(400).json({ message: "Invalid Password!" });
     }
 
-    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "7d" });
+    const token = jwt.sign(
+      { id: user.id, role: user.role, name: user.name },
+      JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     return res.status(200).json({ message: "Usuario Logado!", token });
   } catch (error) {

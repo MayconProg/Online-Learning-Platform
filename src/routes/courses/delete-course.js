@@ -5,11 +5,22 @@ const router = express.Router();
 
 router.delete("/delete-course/:id", async (req, res) => {
   const courseId = req.params.id;
+  const userData = req.userData;
+
+  console.log(userData, courseId);
+
+  let course;
 
   try {
-    const course = await prisma.course.findUnique({
-      where: { id: courseId },
-    });
+    if (userData.role === "admin") {
+      course = await prisma.course.findUnique({
+        where: { id: courseId },
+      });
+    } else {
+      course = await prisma.course.findUnique({
+        where: { id: courseId, userId: userData.id },
+      });
+    }
 
     if (!course) {
       return res.status(404).json({ message: "Course Not Founded!" });

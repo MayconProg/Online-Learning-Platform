@@ -12,6 +12,10 @@ import { deleteCourseRoute } from "./src/routes/courses/delete-course.js";
 import { listCoursesRoute } from "./src/routes/courses/list-courses.js";
 import { courseDetailsRoute } from "./src/routes/courses/course-details.js";
 
+// Middlewares
+import { authMiddleware } from "./src/middlewares/auth.js";
+import { roleAuthMiddleware } from "./src/middlewares/roleAuth.js";
+
 const app = express();
 app.use(express.json());
 
@@ -21,9 +25,24 @@ app.use("/users", userLoginRoute);
 app.use("/users", changePasswordRoute);
 
 // Courses Routes
-app.use("/courses", createCourseRoute);
-app.use("/courses", updateCourseRoute);
-app.use("/courses", deleteCourseRoute);
+app.use(
+  "/courses",
+  authMiddleware,
+  roleAuthMiddleware("admin", "instructor"),
+  createCourseRoute
+);
+app.use(
+  "/courses",
+  authMiddleware,
+  roleAuthMiddleware("admin", "instructor"),
+  updateCourseRoute
+);
+app.use(
+  "/courses",
+  authMiddleware,
+  roleAuthMiddleware("admin", "instructor"),
+  deleteCourseRoute
+);
 app.use("/courses", listCoursesRoute);
 app.use("/courses", courseDetailsRoute);
 
