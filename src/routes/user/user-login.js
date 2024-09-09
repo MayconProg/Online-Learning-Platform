@@ -29,14 +29,14 @@ router.post("/user-login", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id, role: user.role, name: user.name },
+      { id: user.id, role: user.role, name: user.name, plan: user.plan },
       JWT_SECRET,
       {
         expiresIn: "7d",
       }
     );
 
-    return res.status(200).json({ message: "Usuario Logado!", token });
+    return res.status(200).json({ message: "Used Logged In!", token });
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error!", error });
   }

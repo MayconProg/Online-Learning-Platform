@@ -4,10 +4,10 @@ import { prisma } from "../../libs/prisma.js";
 const router = express.Router();
 
 router.post("/create-course", async (req, res) => {
-  const { title, summary, thumbnail } = req.body;
-  const { userId, name } = req.userData;
+  const { title, summary, thumbnail, plan } = req.body;
+  const user = req.userData;
 
-  if (!title || !summary || !owner || !thumbnail || !userId || !name) {
+  if (!title || !summary || !thumbnail || !plan) {
     return res.status(400).json({ message: "Invalid Credentials!" });
   }
 
@@ -16,15 +16,16 @@ router.post("/create-course", async (req, res) => {
       data: {
         title,
         summary,
-        owner: name,
+        owner: user.name,
         thumbnail,
-        userId,
+        plan,
+        userId: user.id,
       },
     });
 
     return res
       .status(201)
-      .json({ message: "Course Was Created Succesfully!", course });
+      .json({ message: "Course Was Created Successfully!", course });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal Server Error!" });

@@ -15,6 +15,14 @@ router.post("/create-user", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
+    const userEmail = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (userEmail) {
+      return res.status(401).json({ message: "User Already Registered!" });
+    }
+
     const user = await prisma.user.create({
       data: {
         email,

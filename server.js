@@ -43,8 +43,8 @@ app.use(
   roleAuthMiddleware("admin", "instructor"),
   deleteCourseRoute
 );
-app.use("/courses", listCoursesRoute);
-app.use("/courses", courseDetailsRoute);
+app.use("/list-courses", authMiddleware, listCoursesRoute);
+app.use("/course-detail", courseDetailsRoute);
 
 app.listen(2108, () => {
   console.log("HTTP Server Running! 🚀");
