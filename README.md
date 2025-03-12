@@ -65,7 +65,7 @@ An online learning platform built with **JavaScript**, **Express**, and **Postgr
 
 ### Courses
 - `GET /courses` - List all courses
-- - `GET /courses/:id` - Get course details
+- `GET /courses/:id` - Get course details
 - `POST /courses/create-course` - Create a new course (Admin/Instructor only)
 - `PUT /courses//update-course/:id` - Update a course (Admin/Instructor only)
 - `DELETE /courses/delete-course/:id` - Delete a course (Admin/Instructor only)
